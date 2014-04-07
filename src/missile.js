@@ -1,3 +1,4 @@
+'use strict';
 //first entry in each row is number of incomming missiles
 var ecmTable = [[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
   [2, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2],
@@ -64,7 +65,9 @@ function calculateEcmKills(salvo, roll){
   salvo.ecmKills = 0;
   salvo.ecmDecoyKills = 0;
 
-  if (salvo.wedge === true) {salvo.ecm = 12};
+  if (salvo.wedge === true) {
+    salvo.ecm = 12;
+  }
 
   var unresolvedMissiles = salvo.missileNumber,
       column = salvo.mql + salvo.ecm + roll;
@@ -74,8 +77,8 @@ function calculateEcmKills(salvo, roll){
       unresolvedMissiles -= ecmTable[i][0];
       salvo.ecmKills += ecmTable[i][column];
       salvo.ecmDecoyKills += ecmTable[i][column + salvo.decoy];
-    };
-  };
+    }
+  }
 
   return(salvo);
 }
@@ -91,10 +94,10 @@ function calculateCmKills(salvo, roll){
     for (var i = activeDefenseTable.length - 1; i >= 0; i--) {
       if (activeDefenseTable[i][0] <= cm) {
         salvo.cmKills += activeDefenseTable[i][column];
-        cm -= activeDefenseTable[i][0]
-      };
-    };
-  };
+        cm -= activeDefenseTable[i][0];
+      }
+    }
+  }
   return(salvo);
 }
 
@@ -107,15 +110,15 @@ function calculatePdKills(salvo, roll){
     if (activeDefenseTable[i][0] <= pd) {
       salvo.pdKills += activeDefenseTable[i][column];
       pd -= activeDefenseTable[i][0];
-    };
-  };
+    }
+  }
 
   if (salvo.nuke === true) {
         salvo.pdKills = salvo.pdKills * 2;
-      };
-      
+      }
+
   if (salvo.wedge === true) {
         salvo.pdKills = Math.floor(salvo.pdKills/2);
-      };
+      }
   return(salvo);
 }
